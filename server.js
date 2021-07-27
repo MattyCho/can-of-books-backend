@@ -46,6 +46,7 @@ app.get('/books', getUserBooks);
 function getUserBooks(req, res) {
   User.find({})
     .then(userBooks => {
+      console.log(userBooks);
       res.json(userBooks)
     })
 };
