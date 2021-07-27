@@ -5,6 +5,10 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
+const mongoose = require('mongoose');
+const mongooseOptions = { useNewUrlParser: true, useUnifiedTopology: true }
+mongoose.connect('mongodb://localhost:27017/cats-database', mongooseOptions);
+const User = require('./models/User.js');
 
 const app = express();
 app.use(cors());
@@ -32,5 +36,18 @@ app.get('/auth-test', (req, res) => {
     }
   });
 });
+
+//seeding the DB
+const test = new User({email: 'test@test.net', books: [ {name: 'Book Name', description: 'Description of Book', status: "what is status?"} ]})
+test.save();
+
+app.get('/books', getUserBooks);
+
+function getUserBooks(req, res) {
+  User.find({})
+    .then(userBooks => {
+      res.json(userBooks)
+    })
+};
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
