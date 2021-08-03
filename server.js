@@ -18,17 +18,13 @@ app.use(cors());
 
 const PORT = process.env.PORT || 3333;
 
-//seeding the DB
-const test = new User({email: 'myc.chosen@gmail.com', books: [ {name: 'Book Name', description: 'Description of Book', status: "what is status?"} ]})
-test.save();
-
 app.get('/books', Book.getBooks);
 
 app.post('/books', Book.addBook);
 
-app.put('/books/:id', Book.updateBook)
+app.put('/books', Book.updateBook)
 
-app.delete('/books/:id', Book.deleteBook);
+app.delete('/books', Book.deleteBook);
 
 app.use('*', (req, res) => {
   res.status(404).send('Route not found');
