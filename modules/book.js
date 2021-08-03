@@ -54,20 +54,12 @@ Book.updateBook = async (req, res) => {
   const newName = req.query.name
   const newDescription = req.query.description
   const newStatus = req.query.status
-  console.log('update route');
-  console.log(id);
-  console.log(email);
-  console.log(newName);
-  console.log(newDescription);
-  console.log(newStatus);
 
   await User.findOne({ email }, (err, user) => {
     const bookArr = user.books.map((book, i) => {
-      console.log(book._id);
       return book._id == id ? book = { _id: id, name: newName, description: newDescription, status: newStatus } : book;
     });
 
-    console.log(bookArr);
     user.books = bookArr;
     user.save();
     res.send(bookArr);
